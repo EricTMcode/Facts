@@ -9,16 +9,16 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    
+
     @Environment(\.modelContext) private var modelContext
-    
-    
+
+
     @State private var path = [Person]()
     @State private var searchText = ""
-    
+
     var body: some View {
         NavigationStack(path: $path) {
-            PeopleView()
+            PeopleView(searchString: searchText)
                 .navigationTitle("FaceFacts")
                 .navigationDestination(for: Person.self) { person in
                     EditPersonView(person: person)
@@ -29,14 +29,14 @@ struct ContentView: View {
                 .searchable(text: $searchText)
         }
     }
-    
+
     private func addPerson() {
         let person = Person(name: "", emailAddress: "", details: "")
         modelContext.insert(person)
         path.append(person)
         try? modelContext.save()
     }
-    
+
 }
 
 #Preview {
