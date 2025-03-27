@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct EditPersonView: View {
 
+    @Environment(\.modelContext) private var modelContext
     @Bindable var person: Person
 
     var body: some View {
@@ -25,9 +27,16 @@ struct EditPersonView: View {
             Section("Notes") {
                 TextField("Details about this person", text: $person.details, axis: .vertical)
             }
+
+            Button("Save", action: addPerson)
+
         }
         .navigationTitle("Edit Person")
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func addPerson() {
+        try? modelContext.save()
     }
 }
 
