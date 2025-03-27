@@ -13,5 +13,6 @@ struct FactsApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: Person.self)
     }
 }
