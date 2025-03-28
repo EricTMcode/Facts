@@ -13,6 +13,11 @@ struct EditPersonView: View {
     @Environment(\.modelContext) private var modelContext
     @Bindable var person: Person
 
+    @Query(sort: [
+        SortDescriptor(\Event.name),
+        SortDescriptor(\Event.location)
+    ]) var events: [Event]
+
     var body: some View {
         Form {
             Section {
@@ -22,6 +27,22 @@ struct EditPersonView: View {
                 TextField("Email address", text: $person.emailAddress)
                     .textContentType(.emailAddress)
                     .textInputAutocapitalization(.never)
+            }
+
+            Section("Where did you meet them?") {
+                Picker("Met at", selection: $person.meetAt) {
+                    Text("Unknown event")
+
+                    if events.isEmpty == false {
+                        Divider()
+
+                        ForEach(events) { event in
+                            Text(event.name)
+                        }
+                    }
+                }
+
+                Button("Add a new event", action: addEvent)
             }
 
             Section("Notes") {
@@ -37,6 +58,11 @@ struct EditPersonView: View {
 
     private func addPerson() {
         try? modelContext.save()
+    }
+
+
+    private func addEvent() {
+
     }
 }
 
