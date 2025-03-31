@@ -9,7 +9,6 @@ import SwiftData
 import SwiftUI
 
 struct EditEventView: View {
-
     @Bindable var event: Event
 
     var body: some View {
